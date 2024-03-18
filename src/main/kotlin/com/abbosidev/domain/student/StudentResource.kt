@@ -1,8 +1,11 @@
 package com.abbosidev.domain.student
 
+import com.abbosidev.domain.exception.StudentNotFoundWithThisIdException
+import com.abbosidev.infrastructure.config.ifFalseFailWith
 import com.abbosidev.infrastructure.config.ifOnNotNull
 import io.smallrye.mutiny.Uni
 import jakarta.ws.rs.Consumes
+import jakarta.ws.rs.DELETE
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.POST
 import jakarta.ws.rs.PUT
@@ -33,6 +36,20 @@ class StudentResource(private val studentService: StudentService) {
             .transform {
                 val message = HashMap<String, String>().apply {
                     put("message", "Successfully updated")
+                }
+                Response.ok(message).build()
+            }
+
+    @DELETE
+    @Path("/{id}")
+    fun deleteStudent(@PathParam("id") id: Long): Uni<Response> =
+        studentService
+            .deleteStudent(id)
+            .ifFalseFailWith { StudentNotFoundWithThisIdException(id) }
+            .ifOnNotNull()
+            .transform {
+                val message = HashMap<String, String>().apply {
+                    put("message", "Successfully deleted")
                 }
                 Response.ok(message).build()
             }

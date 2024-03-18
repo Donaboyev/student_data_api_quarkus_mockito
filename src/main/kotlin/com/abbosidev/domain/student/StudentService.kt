@@ -28,4 +28,7 @@ class StudentService {
     fun updateStudent(id: Long, student: StudentDto): Uni<Boolean?> =
         Student.updateStudent(id, student).ifNullFailWith { StudentNotFoundWithThisIdException(id) }
 
+    @WithTransaction
+    fun deleteStudent(id: Long) = Student.deleteById(id)
+
 }
