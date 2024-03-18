@@ -1,3 +1,8 @@
 package com.abbosidev.domain.student
 
-data class StudentDto(val firstname: String, val lastname: String)
+data class StudentDto(
+    var firstname: String?,
+    var lastname: String?,
+    var age: Int?,
+    var address: String?
+)
