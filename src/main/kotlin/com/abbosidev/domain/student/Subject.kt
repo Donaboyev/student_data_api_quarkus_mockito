@@ -16,7 +16,7 @@ class Subject : PanacheEntity() {
 
     @OneToOne(targetEntity = Mark::class, cascade = [CascadeType.ALL])
     @JoinColumn(name = "marks", referencedColumnName = "id")
-    lateinit var mark: Mark
+    var mark: Mark? = null
 
     companion object : PanacheCompanion<Subject> {}
 }
